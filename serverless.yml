@@ -1,0 +1,23 @@
+service: faq-search
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  architecture: arm64
+  region: ap-northeast-1
+  timeout: 25
+  ecr:
+    images:
+      faq-qa:
+        path: ./
+        platform: linux/arm64
+
+functions:
+  faq-qa:
+    image:
+      name: faq-qa
+      command:
+        - handler.faq_qa
+    environment:
+      OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    url: true
